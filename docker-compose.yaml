@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  html:
+    networks:
+      - miznotbon
+    build: .
+    container_name: html
+    ports:
+      - 8080:80
+  
+  nginx:
+    depends_on:
+      - html
+    networks:
+      - miznotbon
+    image: nginx:alpine
+    container_name: nginx-miznotbon
+    ports:
+      - 8000:80 
+    volumes:
+    - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: on-failure
+
+networks:
+    miznotbon:
